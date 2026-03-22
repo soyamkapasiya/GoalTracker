@@ -19,11 +19,17 @@ const FREQUENCIES = ['daily', 'weekly'] as const;
 const UNITS = ['sessions', 'pages', 'minutes', 'miles', 'reps', 'hours', 'items', 'count'];
 
 export function GoalCreationModal({ isOpen, onClose, onAddGoal }: GoalCreationModalProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    category: string;
+    target: number;
+    frequency: 'daily' | 'weekly';
+    unit: string;
+  }>({
     name: '',
     category: 'fitness',
     target: 5,
-    frequency: 'daily' as const,
+    frequency: 'daily',
     unit: 'sessions',
   });
 
