@@ -4,6 +4,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  basePath: '/GoalTracker',
+  assetPrefix: '/GoalTracker',
   images: {
     unoptimized: true,
   },
