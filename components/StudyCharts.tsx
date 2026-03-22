@@ -16,10 +16,11 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts'
-import { WeekData } from '@/hooks/useStudyData'
+import { WeekData, DayMilestones } from '@/hooks/useStudyData'
 
 const DAYS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const DAYS_FULL = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 const COLORS = {
   actual: '#10b981',
   goal: '#3b82f6',
@@ -34,12 +35,15 @@ export function StudyCharts({ weekData }: StudyChartsProps) {
   const [chartType, setChartType] = useState<'line' | 'bar' | 'gauge' | 'timeline'>('line')
 
   // Prepare chart data
-  const chartData = DAYS_FULL.map((day, idx) => ({
-    name: DAYS_SHORT[idx],
-    actual: weekData[day as keyof WeekData]?.totalHours || 0,
-    goal: weekData.startingDailyTarget,
-    milestones: weekData[day as keyof WeekData]?.completedMilestones?.filter(Boolean).length || 0,
-  }))
+  const chartData = DAYS_FULL.map((day, idx) => {
+    const dayData = weekData[day as DayKey] as DayMilestones;
+    return {
+      name: DAYS_SHORT[idx],
+      actual: dayData?.totalHours || 0,
+      goal: weekData.startingDailyTarget,
+      milestones: dayData?.completedMilestones?.filter(Boolean).length || 0,
+    }
+  })
 
   const totalActual = chartData.reduce((sum, d) => sum + d.actual, 0)
   const totalGoal = weekData.startingHourTarget
