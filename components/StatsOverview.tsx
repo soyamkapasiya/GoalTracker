@@ -2,9 +2,11 @@
 
 import React from 'react'
 import { Card, CardContent } from '@/components/ui/card'
-import { WeekData } from '@/hooks/useStudyData'
+import { WeekData, DayMilestones } from '@/hooks/useStudyData'
 
 const DAYS_FULL = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 
 interface StatsOverviewProps {
   weekData: WeekData
@@ -13,12 +15,12 @@ interface StatsOverviewProps {
 export function StatsOverview({ weekData }: StatsOverviewProps) {
   // Calculate metrics
   const totalHours = DAYS_FULL.reduce(
-    (sum, day) => sum + (weekData[day as keyof WeekData]?.totalHours || 0),
+    (sum, day) => sum + ((weekData[day as DayKey] as DayMilestones)?.totalHours || 0),
     0
   )
 
   const completedDays = DAYS_FULL.filter(
-    (day) => weekData[day as keyof WeekData]?.completed
+    (day) => (weekData[day as DayKey] as DayMilestones)?.completed
   ).length
 
   const averageHours = completedDays > 0 ? totalHours / 7 : 0
@@ -29,7 +31,7 @@ export function StatsOverview({ weekData }: StatsOverviewProps) {
 
   const daysRemaining = 7 - completedDays
   const totalMilestones = DAYS_FULL.reduce(
-    (sum, day) => sum + (weekData[day as keyof WeekData]?.completedMilestones?.filter(Boolean).length || 0),
+    (sum, day) => sum + ((weekData[day as DayKey] as DayMilestones)?.completedMilestones?.filter(Boolean).length || 0),
     0
   )
 
