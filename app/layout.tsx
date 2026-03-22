@@ -5,7 +5,7 @@ import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
-const basePath = process.env.NODE_ENV === 'production' ? '/GoalTracker' : ''
+const basePath = ''
 
 export const metadata: Metadata = {
   title: 'Study Tracker - Track Daily Study Hours',
