@@ -6,9 +6,6 @@ const nextConfig = {
   },
   basePath: '/GoalTracker',
   assetPrefix: '/GoalTracker',
-  images: {
-    unoptimized: true,
-  },
 }
 
 export default nextConfig
